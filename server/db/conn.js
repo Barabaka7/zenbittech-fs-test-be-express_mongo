@@ -7,35 +7,62 @@ const client = new MongoClient(connectionString, {
   useUnifiedTopology: true,
 });
 
-async function listDatabases(client) {
-  const feedbackCollection = await client
-    .db("zenbittech-test")
-    .collection("feedbacks");
+// async function getCollection(client) {
+//   let feedbacks = [];
+//   const feedbackCollection = await client
+//     .db("zenbittech-test")
+//     .collection("feedbacks");
 
-  console.log("Collection:");
-  const cursor = feedbackCollection.find({});
-  await cursor.forEach((doc) => console.log(doc));
-}
+//   const cursor = feedbackCollection.find({});
+//   await cursor.forEach((doc) => feedbacks.push(doc));
+//   return feedbacks;
+// }
 
-async function getCollection(client) {
+// export const getFeedbacksCollection = async () => {
+//   try {
+//     await client.connect();
+//     const feedbackCollection = await getCollection(client);
+//     return feedbackCollection;
+//   } catch (e) {
+//     console.error(e);
+//   } finally {
+//     await client.close();
+//   }
+// };
+
+export async function getFeedbacksCollection() {
   let feedbacks = [];
-  const feedbackCollection = await client
-    .db("zenbittech-test")
-    .collection("feedbacks");
-
-  const cursor = feedbackCollection.find({});
-  await cursor.forEach((doc) => feedbacks.push(doc));
-  return feedbacks;
-}
-
-export const getFeedbacksCollection = async () => {
   try {
     await client.connect();
-    const feedbackCollection = await getCollection(client);
-    return feedbackCollection;
+    const fetchData = (client) =>
+      client
+        .db("zenbittech-test")
+        .collection("feedbacks")
+        .find({})
+        .forEach((doc) => feedbacks.push(doc));
+    await fetchData(client);
+    return feedbacks;
   } catch (e) {
     console.error(e);
   } finally {
     await client.close();
   }
-};
+}
+
+export async function postFeedbackToCollection(feedback) {
+  let newFeedBack = { ...feedback, creation_data: new Date() };
+  try {
+    await client.connect();
+    const postData = (client) =>
+      client
+        .db("zenbittech-test")
+        .collection("feedbacks")
+        .insertOne(newFeedBack);
+    await postData(client);
+    return newFeedBack;
+  } catch (e) {
+    console.error(e);
+  } finally {
+    await client.close();
+  }
+}
