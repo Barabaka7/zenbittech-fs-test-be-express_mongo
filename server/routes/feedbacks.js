@@ -1,15 +1,22 @@
 import { Router } from "express";
+import { getAllFeedbacks } from "../services/feedbacks/get-all-feedbacks";
+import { addOneFeedback } from "../services/feedbacks/add-one-feedback";
 
 const router = Router();
 
 /* GET feedbacks listing. */
-router.get("/", function (req, res, next) {
-  res.send("respond with a resource!!!##");
+router.get("/", async (req, res, next) => {
+  try {
+    const feedbacks = await getAllFeedbacks();
+    res.send(feedbacks);
+  } catch (error) {
+    next(error);
+  }
 });
 
-router.post("/", (req, res, next) => {
+router.post("/", async (req, res, next) => {
   try {
-    //  const newFeedback = addOneFeedback(req.body);
+    const newFeedback = await addOneFeedback(req.body);
     res.status(201).send(newFeedback);
   } catch (error) {
     next(error);

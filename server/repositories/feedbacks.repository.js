@@ -1,6 +1,10 @@
+import { getDb, getFeedbacksCollection } from "../db/conn";
+
 class FeedbacksRepository {
-  findAll() {
-    return this.feedbacks;
+  async findAll() {
+    const feedbacksCollection = await getFeedbacksCollection();
+    console.log(feedbacksCollection);
+    return feedbacksCollection;
   }
 
   findOne(id) {
@@ -18,4 +22,4 @@ class FeedbacksRepository {
   }
 }
 
-export const feedbacksRepository = new NotesRepository();
+export const feedbacksRepository = new FeedbacksRepository();
