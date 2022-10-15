@@ -52,16 +52,31 @@ var FeedbacksRepository = /*#__PURE__*/function () {
     }
   }, {
     key: "save",
-    value: function save(feedback) {
-      var index = this.feedbacks.findIndex(function (_ref) {
-        var id = _ref.id;
-        return feedback.id === id;
-      });
-      if (index !== -1) {
-        this.feedbacks[index] = feedback;
+    value: function () {
+      var _save = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(feedback) {
+        var newFeedback;
+        return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return (0, _conn.sendFeedbackToCollection)(feedback);
+              case 2:
+                newFeedback = _context2.sent;
+                console.log(newFeedback);
+                return _context2.abrupt("return", newFeedback);
+              case 5:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }));
+      function save(_x) {
+        return _save.apply(this, arguments);
       }
-      this.notes.push(feedback);
-    }
+      return save;
+    }()
   }]);
   return FeedbacksRepository;
 }();

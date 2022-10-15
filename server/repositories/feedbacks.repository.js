@@ -1,4 +1,8 @@
-import { getDb, getFeedbacksCollection } from "../db/conn";
+import {
+  getDb,
+  getFeedbacksCollection,
+  sendFeedbackToCollection,
+} from "../db/conn";
 
 class FeedbacksRepository {
   async findAll() {
@@ -11,14 +15,10 @@ class FeedbacksRepository {
     return this.feedbacks.find((feedback) => feedback.id === id) || null;
   }
 
-  save(feedback) {
-    const index = this.feedbacks.findIndex(({ id }) => feedback.id === id);
-
-    if (index !== -1) {
-      this.feedbacks[index] = feedback;
-    }
-
-    this.notes.push(feedback);
+  async save(feedback) {
+    const newFeedback = await sendFeedbackToCollection(feedback);
+    console.log(newFeedback);
+    return newFeedback;
   }
 }
 
