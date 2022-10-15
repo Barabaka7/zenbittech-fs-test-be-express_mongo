@@ -10,15 +10,10 @@ var _httpErrors = _interopRequireDefault(require("http-errors"));
 var _morgan = _interopRequireDefault(require("morgan"));
 var _index = require("./routes/index");
 var _feedbacks = require("./routes/feedbacks");
+var _cors = _interopRequireDefault(require("cors"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-// import * as dotenv from "dotenv";
-// dotenv.config({
-//   path: __dirname + "/./../server/.env." + process.env.NODE_ENV,
-// });
-
-// console.log(process.env.ATLAS_URI);
-
 var app = (0, _express["default"])();
+app.use((0, _cors["default"])());
 app.use((0, _morgan["default"])("dev"));
 app.use(_express["default"].json());
 app.use(_express["default"].urlencoded({

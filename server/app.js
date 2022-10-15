@@ -7,14 +7,11 @@ import logger from "morgan";
 import { router as indexRouter } from "./routes/index";
 import { router as feedbacksRouter } from "./routes/feedbacks";
 
-// import * as dotenv from "dotenv";
-// dotenv.config({
-//   path: __dirname + "/./../server/.env." + process.env.NODE_ENV,
-// });
-
-// console.log(process.env.ATLAS_URI);
+import cors from "cors";
 
 const app = express();
+
+app.use(cors());
 
 app.use(logger("dev"));
 app.use(express.json());
